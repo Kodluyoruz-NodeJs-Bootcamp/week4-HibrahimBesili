@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 import Payload from "../../types/Payload";
 import Request from "../../types/Request";
-import User, { TUserModel } from "../../models/User";
+import {User} from "../../models/User";
 import config from '../../../config.json';
 
 const router: Router = Router();
@@ -23,17 +23,13 @@ router.post("/register", [
     return res.status(HttpStatusCodes.BAD_REQUEST).json({ errors: errors.array() });
   }
 
-  const {name, lastname, username, password} = req.body;
+  let newUser = new User();
 
-  const newUser = new User({
-    name,
-    lastname,
-    username,
-    password
-  });
+  newUser = {...req.body};
 
   try {
-    let user: TUserModel = await User.findOne({ username: newUser.username });
+    let user: User = await User.findOne({ username: newUser.username });
+    console.log(user);
     if (user) {
       return res.status(HttpStatusCodes.BAD_REQUEST).json({
         errors: [
@@ -46,11 +42,11 @@ router.post("/register", [
     else {
       const hashed = await bcrypt.hash(newUser.password, 12);
       newUser.password = hashed;
-      await newUser.save();
+      await User.create(newUser).save();
       res.status(HttpStatusCodes.OK).send();
     }
   }catch (error) {
-    res.status(HttpStatusCodes.BAD_REQUEST).json({ auth: false, message: 'an error occured' });
+    res.status(HttpStatusCodes.BAD_REQUEST).json({ auth: false, message: error });
   }
 });
 
@@ -72,7 +68,7 @@ router.post(
     const { name, surname, username, password } = req.body;
     try {
 
-      let user: TUserModel = await User.findOne({ username: username }).exec();
+      let user: User = await User.findOne({ username: username });
 
       if (!user) {
         return res.status(HttpStatusCodes.BAD_REQUEST).json({

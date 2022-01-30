@@ -2,7 +2,7 @@ import { Router, Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import HttpStatusCodes from "http-status-codes";
 
-import User from "../../models/User";
+import {User} from "../../models/User";
 import config from '../../../config.json';
 import { JwtPayload } from '../../types/User';
 

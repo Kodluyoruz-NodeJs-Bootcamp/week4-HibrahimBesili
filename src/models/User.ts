@@ -1,16 +1,27 @@
-import { Schema,Document, model, connect } from 'mongoose';
-import bcrypt from 'bcrypt-nodejs'
 
-export type TUserModel = Document & {
-  username: string,
-  password: string
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+} from  "typeorm";
+
+
+@Entity()
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
+  @Column()
+  name!: string;
+
+  @Column({ nullable: true })
+  lastname?: string;
+
+  @Column({ unique: true })
+  username!: string;
+
+  @Column()
+  password!: string;
+
 }
-
-export const schema= new Schema<TUserModel>({
-  username: String,
-  password: String,
-})
-
-const UserModel = model<TUserModel>('User', schema);
-
-export default UserModel;

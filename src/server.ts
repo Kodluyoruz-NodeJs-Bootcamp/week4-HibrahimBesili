@@ -4,13 +4,17 @@ import express from "express";
 import connectDB from "../config/database";
 import auth from "./routes/api/auth";
 import user from "./routes/api/user";
-
+import {createConnection } from 'typeorm';
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Connect to Mysql
+
+createConnection().then(()=>{
+  console.log("connected to mysqldb");
+});
 
 // Express configuration
+
 app.set("port", process.env.PORT || 5000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

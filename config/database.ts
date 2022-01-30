@@ -1,23 +1,37 @@
-import config from '../config.json';
+// import { OperationCanceledException } from "typescript";
 
-import { ConnectionOptions, connect } from "mongoose";
+// // import config from '../config.json';
+// import  mySql from "mysql";
 
-const connectDB = async () => {
+// mySql.createConnection()
+
+// var connectDB = mySql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "12345",
+//   database : "sys"
+// });
+
+// // connectDB.connect(
+// //   function (err) { 
+// //   if (err) { 
+// //       console.log("!!! Cannot connect !!! Error:");
+// //       throw err;
+// //   }
+// //   else
+// //   {
+// //      console.log("Connection established.");
+// //   }
+// // });
+// export default connectDB;
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+
+export default async () => {
   try {
-    const mongoURI: string = config.mongoURI;
-    const options: ConnectionOptions = {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-    };
-    await connect(mongoURI, options);
-    console.log("MongoDB Connected...");
-  } catch (err) {
-    console.error(err.message);
-    // Exit process with failure
-    process.exit(1);
+    await createConnection();
+    console.log("Database connected successfully");
+  } catch (error) {
+      throw error;
   }
 };
-
-export default connectDB;

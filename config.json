@@ -1,5 +1,4 @@
 {
-  "mongoURI": "'mongodb://localhost:27017/my_database'",
   "jwtSecret": "jwtSecretToken",
   "jwtExpiration": 360000
 }
